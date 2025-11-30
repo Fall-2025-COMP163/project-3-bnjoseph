@@ -149,3 +149,12 @@ Test files are provided for your learning but are protected. Modifying test file
 - Academic integrity investigation
 
 You can view tests to understand requirements, but any modifications will be automatically detected.
+
+## Updates
+Commit I: 
+- Character management functions added.
+  - create_character: dictionary with character stats based off of character class is returned. If the given character class is not in the valid character classes list then the InvalidCharacterClassError is raised.
+  - save_character: saves character information to a given directory and returns the status of the action's success. try, except is used to catch permissionError and IOError, returning True for successful try and False for except.
+  - load_character: loads character information form a given directory and returns information in dictionary form. CharacterNotFoundError raised if file is not found, SaveFileCorruptedError raised if file fails to open.
+  - list_saved_characters: returns list of filenames in save directory. 
+  - delete_characters: deletes file containing character information within a given directory. CharacterNotFoundError raised if file is not found.
