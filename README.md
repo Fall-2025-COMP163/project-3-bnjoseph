@@ -195,3 +195,14 @@ Commit IV:
 - Combat utilities added
   - can_character_fight: returns True if character is not dead, returns False otherwise.
   - get_victory_rewards: returns dictionary of containing information of xp and gold rewards.
+
+Commit V:
+- Data loading functions added
+  - load_quests: return a dictionary of all quests and respective quest information from quests file. MissingDataFileError raised if quests file does not exist. CorruptedDataError raised if file will not open.
+  - load_items: return a dictionary of all items and respective item information from items file. MissingDataFileError raised if items file does not exist. CorruptedDataError raise if file will not open.
+  - validate_quest_data: checks if quest dictionary is in valid format. InvalidDataFormatError raised if quest dictionary has missing fields or if data types are incorrect.
+  - validate_item_data: checks if item dictionary is in valid format. InvalidDataFormatError raised if item dictionary has missing fields or if data types are incorrect.
+  - create_default_data_files: creates data files if they don't exist. 
+- Helper functions added
+  - parse_quest_block: attempts to return a dictionary of quest information splitting up a given line read from the quest file. try, except used. InvalidDataFormatError raised if try fails.
+  - parse_item_block: attempts to return a dictionary of item information splitting up a given line read from the quest file.
