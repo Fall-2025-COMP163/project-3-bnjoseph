@@ -184,3 +184,14 @@ Commit III:
     - apply_damage: health of target reduced by damage
     - check_battle_end: returns winner of battle or None if no one has won yet
     - attempt_escape: chance of escaping from combat is 50%. random is used for this.
+
+Commit IV:
+- Special abilities added
+  - use_special_ability: each class has a special ability, a special ability is called based on given character class.
+  - warrior_power_strike: special ability of the warrior.
+  - mage_fireball: special ability of the mage.
+  - rogue_critical_strike: special ability of the rogue. Chance of higher damage.
+  - cleric_heal: special ability of the cleric. Health increases by 30.
+- Combat utilities added
+  - can_character_fight: returns True if character is not dead, returns False otherwise.
+  - get_victory_rewards: returns dictionary of containing information of xp and gold rewards.

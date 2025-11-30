@@ -259,31 +259,63 @@ def use_special_ability(character, enemy):
     # Check character class
     # Execute appropriate ability
     # Track cooldowns (optional advanced feature)
-    pass
+
+    if character["class"] == "Warrior":
+        warrior_power_strike(character, enemy)
+    elif character["class"] == "Mage":
+        mage_fireball(character, enemy)
+    elif character["class"] == "Rogue":
+        rogue_critical_strike(character, enemy)
+    else:
+        cleric_heal(character)
 
 def warrior_power_strike(character, enemy):
     """Warrior special ability"""
     # TODO: Implement power strike
     # Double strength damage
-    pass
+
+    damage = 2 * character['strength'] - (enemy['strength'] // 4)
+    if damage < 1:
+        damage = 1
+    enemy["health"] -= damage
+    if enemy["health"] < 0:
+        enemy["health"] = 0
 
 def mage_fireball(character, enemy):
     """Mage special ability"""
     # TODO: Implement fireball
     # Double magic damage
-    pass
+
+    damage = 2 * character['magic'] - (enemy['magic'] // 4)
+    if damage < 1:
+        damage = 1
+    enemy["health"] -= damage
+    if enemy["health"] < 0:
+        enemy["health"] = 0
 
 def rogue_critical_strike(character, enemy):
     """Rogue special ability"""
     # TODO: Implement critical strike
     # 50% chance for triple damage
-    pass
+
+    if random.randint(1,2) == 1:
+        damage = character['strength'] - (enemy['strength'] // 4)
+    else:
+        damage = 3 * character['strength'] - (enemy['strength'] // 4)
+    if damage < 1:
+        damage = 1
+    enemy["health"] -= damage
+    if enemy["health"] < 0:
+        enemy["health"] = 0
 
 def cleric_heal(character):
     """Cleric special ability"""
     # TODO: Implement healing
     # Restore 30 HP (not exceeding max_health)
-    pass
+
+    character["health"] += 30
+    if character["health"] > character["max_health"]:
+        character["health"] = character["max_health"]
 
 # ============================================================================
 # COMBAT UTILITIES
@@ -296,7 +328,10 @@ def can_character_fight(character):
     Returns: True if health > 0 and not in battle
     """
     # TODO: Implement fight check
-    pass
+
+    if character["health"] > 0:
+        return True
+    return False
 
 def get_victory_rewards(enemy):
     """
@@ -305,7 +340,9 @@ def get_victory_rewards(enemy):
     Returns: Dictionary with 'xp' and 'gold'
     """
     # TODO: Implement reward calculation
-    pass
+
+    dictionary = {"xp": enemy["xp_reward"], "gold": enemy["gold_reward"]}
+    return dictionary
 
 def display_combat_stats(character, enemy):
     """
