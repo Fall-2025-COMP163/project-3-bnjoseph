@@ -206,3 +206,24 @@ Commit V:
 - Helper functions added
   - parse_quest_block: attempts to return a dictionary of quest information splitting up a given line read from the quest file. try, except used. InvalidDataFormatError raised if try fails.
   - parse_item_block: attempts to return a dictionary of item information splitting up a given line read from the quest file.
+
+Commit VI:
+- Inventory management added
+  - add_item_to_inventory: append item to characters inventory. InventoryFullError raised if character inventory list exceeds maximum inventory size
+  - remove_item_from_inventory: remove item from characters inventory. ItemNotFoundError raised if item to remove is not in character inventory.
+  - has_item: returns true if item is found in character inventory and returns false otherwise.
+  - count_item: returns total amount of an item in the characters inventory.
+  - get_inventory_space_remaining: returns the maximum inventory size minus the item count.
+  - clear_inventory: saves character inventory and removes all items from character inventory
+- Item usage added
+  - use_item: Checks the type of item. If successful, removes item from inventory and applies effect. ItemNotFoundError raised if item is not in inventory. InvalidItemTypeError if the item type is not consumable.
+  - equip_weapon: If successful, removes item from inventory and appends item to an equipped weapon 'slot'. Other stats of weapon are updated to character information. ItemNotFoundError raised if item not in inventory. InvalidItemTypeError raised if item type is not weapon.
+  - equip_armor: If successful, item is removed from inventory, effects are applied to character stats, armor is placed in an equipped armor 'slot'. ItemNotFoundError raised if item is not in inventory. InvalidItemTypeError raised if item type is not armor.
+  - unequip_weapon: checks if equipped_weapon slot exists, item is removed and item_id is returned. InventoryFullError raised if inventory space remaining is 0.
+  - unequip_armor: checks if equipped_armor slot exists, item is removed and item_id is returned. InventoryFullError raised if inventory space remaining is 0.
+- Shop system added
+  - purchase_item: if successful, gold decreases by item cost and item is appended to character inventory. InsufficientResourcesError raised if cost exceeds gold. InventoryFullError raised if remaining inventory space is 0.
+  - sell_item: if successful, gold increases by half of item value and item is removed from character inventory. ItemNotFoundError raised if item is not in character inventory.
+- Helper functions added
+  - parse_item_effect: splits a string to get stat and value of stat
+  - apply_stat_effect: applies value of stat to character stat.
