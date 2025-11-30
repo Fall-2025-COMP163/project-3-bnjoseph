@@ -241,3 +241,22 @@ Commit VII:
   - is_quest_active: returns boolean for if quest is in active quests.
   - can_accept_quest: returns boolean for if quest is in available quests.
   - get_quest_prerequisite_chain: returns list of quests that must be done for a given quest to be available. QuestNotFoundError raised if quest is not valid.
+
+Commit VIII:
+- Main menu added
+  - main_menu: display options (new game, load game, and exit) and request a choice from the user. 
+  - new_game: set a variable game_running to True. Retrieve a character name and class from the user. Sets up a try except to get a character, if it fails it catches InvalidCharacterClassError.
+  - load_game: get characters from saved characters. Sets up try except to get character, if it fails except catches CharacterNotFoundError, SaveFileCorruptedError, and InvalidSaveDataError.
+- Game loop added
+  - game_loop: while the game if running the player inputs their choice number which is associated with actions. 1 for view stats, 2 for view inventory, 3 for see quest menu, 4 for explore, and 5 for shop.
+  - game_menu: This is the display for the game loop. choice is retrieved from the user and returned.
+- Game actions added
+  - view_character_stats: prints character stats
+  - view_inventory: prints inventory
+  - quest_menu: prints options for users to select related to quests.
+  - explore: initiate fights. sets up try except fo starting battles, if it fails except catches InvalidTargetError, and CharacterDeadError.
+  - shop: shows the shop inventory and allows player choice to buy, sell, or leave. sets up try except to execute choices, if it fails except catches InsufficientResourcesError, InventoryFullError, and ItemNotFoundError.
+- Helper functions added
+  - save_game: saves game
+  - load_game_data: loads all quests into a list, loads all items into a list. sets up a try except to get these lists, if it fails except catches MissingDataFileError, InvalidDataFormatError, and CorruptedDataError and creates default files.
+  - handle_character_death: if a character is determined dead, the player gets a choice to revive them at the cost of some of their gold, or to quit.
