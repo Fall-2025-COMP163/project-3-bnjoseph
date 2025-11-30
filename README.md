@@ -227,3 +227,17 @@ Commit VI:
 - Helper functions added
   - parse_item_effect: splits a string to get stat and value of stat
   - apply_stat_effect: applies value of stat to character stat.
+
+Commit VII:
+- Quest management added
+  - accept_quest: if successful, appends quest to active_quests. QuestNotFoundError raised if quest does not exist. InsufficientLevelError raised if level does not meet required level for quest. QuestAlreadyCompletedError raised if quest is already in active quests or is in completed quests. QuestRequirementsNotMedError raised if required quest is not in completed quests.
+  - complete_quest: if successful, rewards for quest are returned. QuestNotFoundError raised if ques is not valid. QuestNotActiveError raised if quest is not being done currently.
+  - abandon_quest: removes quest from active quests list. QuestNotActiveError is quest is not in active quest list.
+  - get_active_quests: returns a list of all active quests.
+  - get_completed_quests: returns a list of all completed quests.
+  - get_available_quests: returns a list of quests that hte character would meet the prerequisites for.
+- Quest Tracking added
+  - is_quest_completed: returns boolean for if quest is in completed quests.
+  - is_quest_active: returns boolean for if quest is in active quests.
+  - can_accept_quest: returns boolean for if quest is in available quests.
+  - get_quest_prerequisite_chain: returns list of quests that must be done for a given quest to be available. QuestNotFoundError raised if quest is not valid.
