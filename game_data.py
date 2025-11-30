@@ -42,10 +42,11 @@ def load_quests(filename="data/quests.txt"):
     # - Invalid format → raise InvalidDataFormatError
     # - Corrupted/unreadable data → raise CorruptedDataError
 
-    if filename != "data/quests.txt":
-        filename = os.path.abspath(filename)
-    else:
-        filename = "/Users/brycejoseph/Downloads/project-3-bnjoseph-main/" + filename
+    #if filename != "data/quests.txt":
+        #filename = os.path.abspath(filename)
+    #else:
+        #filename = "/Users/brycejoseph/Downloads/project-3-bnjoseph-main/" + filename
+    filename = os.path.abspath(filename)
     if not os.path.isfile(filename):
         raise MissingDataFileError
     else:
@@ -79,10 +80,11 @@ def load_items(filename="data/items.txt"):
     # TODO: Implement this function
     # Must handle same exceptions as load_quests
 
-    if filename != "data/items.txt":
-        filename = os.path.abspath(filename)
-    else:
-        filename = "/Users/brycejoseph/Downloads/project-3-bnjoseph-main/" + filename
+    #if filename != "data/items.txt":
+        #filename = os.path.abspath(filename)
+    #else:
+        #filename = "/Users/brycejoseph/Downloads/project-3-bnjoseph-main/" + filename
+    filename = os.path.abspath(filename)
     if not os.path.isfile(filename):
         raise MissingDataFileError
     else:
