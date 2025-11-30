@@ -232,7 +232,18 @@ def gain_experience(character, xp_amount):
     # Add experience
     # Check for level up (can level up multiple times)
     # Update stats on level up
-    pass
+
+    if character["health"] == 0:
+        raise CharacterDeadError
+    character["experience"] += xp_amount
+    level_up_xp = character["level"] * 100
+    while character["experience"] >= level_up_xp:
+        character["level"] += 1
+        character["max_health"] += 10
+        character["strength"] += 2
+        character["magic"] += 2
+        character["health"] = character["max_health"]
+        level_up_xp = character["level"] * 100
 
 def add_gold(character, amount):
     """
@@ -248,7 +259,12 @@ def add_gold(character, amount):
     # TODO: Implement gold management
     # Check that result won't be negative
     # Update character's gold
-    pass
+
+    if character["gold"] + amount < 0:
+        raise ValueError
+    else:
+        character["gold"] += amount
+        return character["gold"]
 
 def heal_character(character, amount):
     """
@@ -261,7 +277,11 @@ def heal_character(character, amount):
     # TODO: Implement healing
     # Calculate actual healing (don't exceed max_health)
     # Update character health
-    pass
+
+    heal_amount = amount
+    if character["health"] + amount > character["max_health"]:
+        heal_amount -= character["health"] - character["max_health"]
+    return heal_amount
 
 def is_character_dead(character):
     """
@@ -270,7 +290,10 @@ def is_character_dead(character):
     Returns: True if dead, False if alive
     """
     # TODO: Implement death check
-    pass
+
+    if character["health"] <= 0:
+        return True
+    return False
 
 def revive_character(character):
     """
@@ -280,7 +303,11 @@ def revive_character(character):
     """
     # TODO: Implement revival
     # Restore health to half of max_health
-    pass
+
+    if is_character_dead(character):
+        character["health"] = character["max_health"] // 2
+        return True
+    return False
 
 # ============================================================================
 # VALIDATION
@@ -301,7 +328,17 @@ def validate_character_data(character):
     # Check all required keys exist
     # Check that numeric values are numbers
     # Check that lists are actually lists
-    pass
+
+    fields = ["name", "class", "level", "health", "max_health",
+              "strength", "magic", "experience", "gold", "inventory",
+              "active_quests", "completed_quests"]
+    for field in fields:
+        if field not in character:
+            raise InvalidSaveDataError
+    for field in fields[-3:]:
+        if not isinstance(character[field], list):
+            raise InvalidSaveDataError
+    return True
 
 # ============================================================================
 # TESTING
