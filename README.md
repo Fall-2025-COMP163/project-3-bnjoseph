@@ -158,3 +158,13 @@ Commit I:
   - load_character: loads character information form a given directory and returns information in dictionary form. CharacterNotFoundError raised if file is not found, SaveFileCorruptedError raised if file fails to open.
   - list_saved_characters: returns list of filenames in save directory. 
   - delete_characters: deletes file containing character information within a given directory. CharacterNotFoundError raised if file is not found.
+
+Commit II:
+- Character operations added.
+  - gain_experience: updates a given characters stats based off of an increase in experience. CharacterDeadError is raised if the characters health is equal to 0.
+  - add_gold: increases or decreases characters gold count by a given amount. ValueError is raised if sum of gold count and amount is less than 0.
+  - heal_character: increases health of character by a given amount. Health is not permitted to exceed maximum health. The actual amount the character is healed by is returned.
+  - is_character_dead: returns True if character health is less than or equal to 0 and returns False otherwise.
+  - revive_character: returns boolean from is_character_dead. If character is dead the character is "revived" with health being set equal to half of maximum health.
+- Validation added
+  - validate_character_data: checks if a character dictionary is in correct format and returns error message if format is invalid. InvalidSaveDataError raised if a valid field is not in the dictionary and if lists are not where they are supposed to be.
