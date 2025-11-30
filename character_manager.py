@@ -2,9 +2,9 @@
 COMP 163 - Project 3: Quest Chronicles
 Character Manager Module - Starter Code
 
-Name: [Your Name Here]
+Name: Bryce Joseph
 
-AI Usage: [Document any AI assistance used]
+AI Usage: No AI Use
 
 This module handles character creation, loading, and saving.
 """
@@ -41,13 +41,46 @@ def create_character(name, character_class):
     # Mage: health=80, strength=8, magic=20
     # Rogue: health=90, strength=12, magic=10
     # Cleric: health=100, strength=10, magic=15
-    
+
+    #valid classes
+    character_classes = ["Warrior", "Mage", "Rogue", "Cleric"]
+    if character_class not in character_classes:
+        raise InvalidCharacterClassError()
+    character_data = {"name": name, "class": character_class, "level": 1}
+    #respective stat initializations
+    if character_class == "Warrior":
+        character_data["health"] = 120
+        character_data["max_health"] = 120
+        character_data["strength"] = 15
+        character_data["magic"] = 5
+    elif character_class == "Mage":
+        character_data["health"] = 80
+        character_data["max_health"] = 80
+        character_data["strength"] = 8
+        character_data["magic"] = 20
+    elif character_class == "Rogue":
+        character_data["health"] = 90
+        character_data["max_health"] = 90
+        character_data["strength"] = 12
+        character_data["magic"] = 10
+    else:
+        character_data["health"] = 100
+        character_data["max_health"] = 100
+        character_data["strength"] = 10
+        character_data["magic"] = 15
+    character_data["experience"] = 0
+    character_data["gold"] = 100
+    character_data["inventory"] = []
+    character_data["active_quests"] = []
+    character_data["completed_quests"] = []
+
+    return character_data
+
     # All characters start with:
     # - level=1, experience=0, gold=100
     # - inventory=[], active_quests=[], completed_quests=[]
     
     # Raise InvalidCharacterClassError if class not in valid list
-    pass
 
 def save_character(character, save_directory="data/save_games"):
     """
@@ -76,7 +109,23 @@ def save_character(character, save_directory="data/save_games"):
     # Create save_directory if it doesn't exist
     # Handle any file I/O errors appropriately
     # Lists should be saved as comma-separated values
-    pass
+
+    if os.path.isdir(save_directory):
+        pass
+    else:
+        os.makedirs(save_directory)
+    filename = save_directory + "/" + character["name"] + "_save.txt"
+    try:
+        with open(filename, "w") as file:
+            for key, val in character.items():
+                if key not in ["inventory", "active_quests", "completed_quests"]:
+                    file.write(f"{key.capitalize()}: {val}\n")
+                else:
+                    file.write(f"{key.capitalize()}: {', '.join(val)}\n")
+        file.close()
+        return True
+    except (PermissionError, IOError):
+        return False
 
 def load_character(character_name, save_directory="data/save_games"):
     """
@@ -97,7 +146,33 @@ def load_character(character_name, save_directory="data/save_games"):
     # Try to read file → SaveFileCorruptedError
     # Validate data format → InvalidSaveDataError
     # Parse comma-separated lists back into Python lists
-    pass
+
+    filename = save_directory + "/" + character_name + "_save.txt"
+    if os.path.isfile(filename):
+        pass
+    else:
+        raise CharacterNotFoundError
+    try:
+        file = open(filename, "r")
+    except:
+        raise SaveFileCorruptedError
+    dictionary = {}
+    lines = file.readlines()
+    for line in lines:
+        key, val = line.split(": ")
+        val = val.replace("\n", "")
+        key = key.lower()
+        if key in ["level", "health", "max_health", "strength", "magic", "experience", "gold"]:
+            dictionary[key] = int(val)
+        else:
+            pass
+        if key not in ["inventory", "active_quests", "completed_quests"]:
+            dictionary[key] = val
+        else:
+            dictionary[key] = val.split(", ")
+    validate_character_data(dictionary)
+    file.close()
+    return dictionary
 
 def list_saved_characters(save_directory="data/save_games"):
     """
@@ -108,7 +183,14 @@ def list_saved_characters(save_directory="data/save_games"):
     # TODO: Implement this function
     # Return empty list if directory doesn't exist
     # Extract character names from filenames
-    pass
+
+    if os.path.isdir(save_directory):
+        filenames = os.listdir(save_directory)
+        for i, name in enumerate(filenames):
+            filenames[i] = name[:-9]
+        return filenames
+    else:
+        return []
 
 def delete_character(character_name, save_directory="data/save_games"):
     """
@@ -119,7 +201,13 @@ def delete_character(character_name, save_directory="data/save_games"):
     """
     # TODO: Implement character deletion
     # Verify file exists before attempting deletion
-    pass
+
+    filename = save_directory + "/" + character_name + "_save.txt"
+    if os.path.isfile(filename):
+        pass
+    else:
+        raise CharacterNotFoundError
+    os.remove(filename)
 
 # ============================================================================
 # CHARACTER OPERATIONS
