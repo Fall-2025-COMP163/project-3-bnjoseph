@@ -168,3 +168,19 @@ Commit II:
   - revive_character: returns boolean from is_character_dead. If character is dead the character is "revived" with health being set equal to half of maximum health.
 - Validation added
   - validate_character_data: checks if a character dictionary is in correct format and returns error message if format is invalid. InvalidSaveDataError raised if a valid field is not in the dictionary and if lists are not where they are supposed to be.
+
+Commit III:
+- random is imported 
+- Enemy Definitions added
+  - create_enemy: returns dictionary of enemy stats based off of given enemy type. InvalidTargetError raised if given enemy type is not in valid type list.
+  - get_random_enemy_for_level: return dictionary for an enemy based off of character level.
+- Combat system added
+  - SimpleBattle class: 
+    - initializer: initializes character and enemy dictionaries, set up combat_active and turn_counter variables.
+    - start_battle: Runs loop that continues until battle end condition is met. Results dictionary is returned when complete. CharacterDeadError raised if character health is less than or equal to 0.
+    - player_turn: damage applied to enemy by player. CombatNotActiveError raised if combat_active variable is false
+    - enemy_turn: damage applied to player by enemy. CombatNotActive Error raised if combat_active variable is false.
+    - calculate_damage: damage calculation, return damage.
+    - apply_damage: health of target reduced by damage
+    - check_battle_end: returns winner of battle or None if no one has won yet
+    - attempt_escape: chance of escaping from combat is 50%. random is used for this.
